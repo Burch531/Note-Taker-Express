@@ -1,14 +1,14 @@
 // This sets up the basic properties for our express server
-var express = require("express");
-var path = require("path");
-var fs = require('fs');
-var util = require('util');
+const express = require("express");
+const path = require("path");
+const fs = require('fs');
+const util = require('util');
 
 // Tells node that we are creating an "express" server
-var app = express();
+const app = express();
 
 // Sets an initial port. We"ll use this later in our listener
-var PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
