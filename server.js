@@ -33,9 +33,34 @@ app.get("/notes", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 
+app.get("/api/notes", function (req, res) {
+    readAsync(path.join(__dirname, "./db/db.json"), "utf8")
+        .then(function (data) {
+            return res.json(JSON.parse(data));
+        });
+});
+
 
 // API POST Requests
-
+app.post("/api/notes", function (req, res) {
+    const newNote = req.body;
+    readAsync(path.join(__dirname, "./db/db.json"), "utf8")
+        .then(function (data) {
+            notes = JSON.parse(data);
+            if (newNote.id || newNote.id === 0) {
+                let currNote = notes[newNote.id];
+                currNote.title = newNote.title;
+                currNote.text = newNote.text;
+            } else {
+                notes.push(newNote);
+            }
+            writeAsync(path.join(__dirname, "./db/db.json"), JSON.stringify(notes))
+                .then(function () {
+                    console.log("Wrote db.json");
+                })
+        });
+    res.json(newNote);
+});
 
 
 // API DELETE Requests
