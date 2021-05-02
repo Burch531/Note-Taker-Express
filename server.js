@@ -56,14 +56,24 @@ app.post("/api/notes", function (req, res) {
             }
             writeAsync(path.join(__dirname, "./db/db.json"), JSON.stringify(notes))
                 .then(function () {
-                    console.log("Wrote db.json");
                 })
         });
     res.json(newNote);
 });
 
-
 // API DELETE Requests
+app.delete("/api/notes/:id", function (req, res) {
+    var id = req.params.id;
+    readAsync(path.join(__dirname, "./db/db.json"), "utf8")
+        .then(function (data) {
+            notes = JSON.parse(data);
+            notes.splice(id, 1);
+            writeAsync(path.join(__dirname, "./db/db.json"), JSON.stringify(notes))
+                .then(function () {
+                })
+        });
+    res.json(id);
+});
 
 
 // LISTENER
